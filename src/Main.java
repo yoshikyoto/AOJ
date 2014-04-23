@@ -43,7 +43,26 @@ class Main{
 	
 	public static void solve(int s, int d, int d_to_s[][], int d_to_d[][]){
 		boolean pipeline_flag[] = new boolean[d];
-		int sum = 0;
+		
+		int before_min = 101;
+		int before_min_d = -1;
+		for(int i = 0; i < d; i++){
+			if(pipeline_flag[i]) continue;
+			for(int j = 0; j < s; j++){
+				if(d_to_s[i][j] == 0) continue; // Ú‘±‚³‚ê‚Ä‚È‚¢ê‡
+				// Å¬’l‚ðXV‚µ‚½ê‡
+				if(before_min > d_to_s[i][j]){
+					before_min = d_to_s[i][j];
+					before_min_d = i;
+				}
+			}
+		}
+		int sum = before_min;
+		pipeline_flag[before_min_d] = true;
+		if(flagCheckAnd(pipeline_flag)){
+			System.out.println(sum);
+			return;
+		}
 		
 		while(true){
 			int min_d = -1;
@@ -67,7 +86,6 @@ class Main{
 					}
 				}
 			}
-			//System.out.println(min_d + ":" + min);
 			sum += min;
 			pipeline_flag[min_d] = true;
 			if(flagCheckAnd(pipeline_flag)){

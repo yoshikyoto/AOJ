@@ -13,6 +13,7 @@ class Main{
 				if(n == 0) return;
 				
 				boolean ana[][][] = new boolean[n][n][n];
+				int answer = n * n * n;
 				
 				for(int i = 0; i < h; i++){
 					strs = br.readLine().split(" ");
@@ -20,24 +21,28 @@ class Main{
 					int arg2 = Integer.parseInt(strs[2]) - 1;
 					if(strs[0].equals("xy")){
 						// xy
-						for(int j = 0; j < n; j++)
+						for(int j = 0; j < n; j++){
+							if(ana[arg1][arg2][j]) continue;
 							ana[arg1][arg2][j] = true;
+							answer--;
+						}
 					}else if(strs[0].equals("xz")){
 						// xz
-						for(int j = 0; j < n; j++)
+						for(int j = 0; j < n; j++){
+							if(ana[arg1][j][arg2]) continue;
 							ana[arg1][j][arg2] = true;
+							answer--;
+						}
 					}else{
 						// yz
-						for(int j = 0; j < n; j++)
+						for(int j = 0; j < n; j++){
+							if(ana[j][arg1][arg2]) continue;
 							ana[j][arg1][arg2] = true;
+							answer--;
+						}
 					}
 				}
 				
-				int answer = n * n * n;
-				for(int i = 0; i < n; i++)
-					for(int j = 0; j < n; j++)
-						for(int k = 0; k < n; k++)
-							if(ana[i][j][k]) answer--;
 				System.out.println(answer);
 			}
 		} catch (Exception e) {

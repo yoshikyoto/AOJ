@@ -15,9 +15,26 @@ class Main{
 	}
 	
 	public static void printArray(int array[]){
-		for(int i = 0; i < array.length; i++){
+		for(int i = 0; i < array.length; i++)
 			System.out.print(array[i] + "\t");
-		}
 		System.out.println();
+	}
+
+	public static void printArray(boolean array[]){
+		for(int i = 0; i < array.length; i++)
+			System.out.print(array[i] + "\t");
+		System.out.println();
+	}
+	
+	public static void printMatrix(int matrix[][]){
+		for(int i = 0; i < matrix.length; i++){
+			printArray(matrix[i]);
+		}
+	}
+	
+	public static void printMatrix(boolean matrix[][]){
+		for(int i = 0; i < matrix.length; i++){
+			printArray(matrix[i]);
+		}
 	}
 }

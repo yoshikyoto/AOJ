@@ -33,7 +33,7 @@ class Main{
 					}
 					}
 				}
-				System.out.println("END");
+				//System.out.println("END");
 			}
 		} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -43,7 +43,7 @@ class Main{
 	
 	public static void sleep(int id, int cat_w){
 		int space = 0;
-		int point = -1;
+		int point = 0;
 		for(int i = 0; i < hei.length; i++){
 			if(hei[i] == -1){
 				if(space == 0) point = i;
@@ -53,7 +53,7 @@ class Main{
 					for(int j = 0; j < space; j++){
 						hei[point + j] = id;
 					}
-					//printArray(hei);
+					printArray(hei);
 					return;
 				}
 			}else{
@@ -64,23 +64,24 @@ class Main{
 	}
 	
 	public static void wakeup(int id){
-		int point = -1;
+		int point = 0;
 		for(int i = 0; i < hei.length; i++){
 			if(hei[i] == id){
 				point = i;
 				break;
 			}
 		}
-		for(int i = point; hei[i] == id; i++){
+		for(int i = point; i < hei.length; i++){
+			if(hei[i] != id) break;
 			hei[i] = -1;
 		}
-		//printArray(hei);
+		printArray(hei);
 	}
 	
 	public static void printArray(int array[]){
 		for(int i = 0; i < array.length; i++){
 			System.out.print(array[i] + "\t");
 		}
-		System.out.println();
+		//System.out.println();
 	}
 }

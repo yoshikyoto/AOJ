@@ -30,7 +30,7 @@ class Main{
 				int sum = 0;
 				for(int i = 0; i < an; i++){
 					for(int j = 0; j < bn; j++){
-						if(distance(a[i], b[i]) <= 4 * r) sum++;
+						if(distance(a[i], b[j]) <= (4 * r)) sum++;
 					}
 				}
 				System.out.println(sum);

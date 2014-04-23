@@ -13,8 +13,6 @@ class Main{
 					if(s == 0 && d == 0) return;
 					
 					// …‚ª’Ê‚¶‚Ä‚é‚©‚Ç‚¤‚©ƒtƒ‰ƒO
-					boolean pipeline_flag[] = new boolean[d];
-					// printArray(pipeline_flag);
 					
 					int d_to_s[][] = new int[d][s];
 					for(int i = 0; i < s; i++){
@@ -32,8 +30,6 @@ class Main{
 							d_to_d[i + j + 1][i] = Integer.parseInt(strs[j]);
 						}
 					}
-					// printMatrix(d_to_s);
-					// printMatrix(d_to_d);
 					solve(s, d, d_to_s, d_to_d);
 			}
 		} catch (IOException e) {
@@ -100,23 +96,5 @@ class Main{
 			if(!flags[i]) return false;
 		}
 		return true;
-	}
-	
-	public static void printArray(boolean array[]){
-		for(int i = 0; i < array.length; i++)
-			System.out.print(array[i] + "\t");
-		System.out.println();
-	}
-	
-	public static void printArray(int array[]){
-		for(int i = 0; i < array.length; i++)
-			System.out.print(array[i] + "\t");
-		System.out.println();
-	}
-	
-	public static void printMatrix(int matrix[][]){
-		for(int i = 0; i < matrix.length; i++){
-			printArray(matrix[i]);
-		}
 	}
 }

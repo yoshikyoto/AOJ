@@ -28,10 +28,12 @@ class Main{
 					}
 					case 'w':{
 						int id = Integer.parseInt(strs[1]);
+						wakeup(id);
 						break;
 					}
 					}
 				}
+				System.out.println("END");
 			}
 		} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -51,6 +53,7 @@ class Main{
 					for(int j = 0; j < space; j++){
 						hei[point + j] = id;
 					}
+					//printArray(hei);
 					return;
 				}
 			}else{
@@ -58,6 +61,20 @@ class Main{
 			}
 		}
 		System.out.println("impossible");
+	}
+	
+	public static void wakeup(int id){
+		int point = -1;
+		for(int i = 0; i < hei.length; i++){
+			if(hei[i] == id){
+				point = i;
+				break;
+			}
+		}
+		for(int i = point; hei[i] == id; i++){
+			hei[i] = -1;
+		}
+		//printArray(hei);
 	}
 	
 	public static void printArray(int array[]){

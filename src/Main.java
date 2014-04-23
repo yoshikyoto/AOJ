@@ -12,7 +12,9 @@ class Main{
 				int h = Integer.parseInt(strs[1]);
 				if(n == 0) return;
 				
-				boolean ana[][][] = new boolean[n][n][n];
+				boolean xy[][] = new boolean[n][n];
+				boolean xz[][] = new boolean[n][n];
+				boolean yz[][] = new boolean[n][n];
 				int answer = n * n * n;
 				
 				for(int i = 0; i < h; i++){
@@ -21,23 +23,26 @@ class Main{
 					int arg2 = Integer.parseInt(strs[2]) - 1;
 					if(strs[0].equals("xy")){
 						// xy
+						xy[arg1][arg2] = true;
 						for(int j = 0; j < n; j++){
-							if(ana[arg1][arg2][j]) continue;
-							ana[arg1][arg2][j] = true;
+							if(xz[arg1][j]) continue;
+							if(yz[arg2][j]) continue;
 							answer--;
 						}
 					}else if(strs[0].equals("xz")){
 						// xz
+						xz[arg1][arg2] = true;
 						for(int j = 0; j < n; j++){
-							if(ana[arg1][j][arg2]) continue;
-							ana[arg1][j][arg2] = true;
+							if(xy[arg1][j]) continue;
+							if(yz[j][arg2]) continue;
 							answer--;
 						}
 					}else{
 						// yz
+						yz[arg1][arg2] = true;
 						for(int j = 0; j < n; j++){
-							if(ana[j][arg1][arg2]) continue;
-							ana[j][arg1][arg2] = true;
+							if(xy[j][arg1]) continue;
+							if(xz[j][arg2]) continue;
 							answer--;
 						}
 					}

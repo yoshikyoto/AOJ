@@ -33,7 +33,7 @@ class Main{
 					}
 					}
 				}
-				//System.out.println("END");
+				System.out.println("END");
 			}
 		} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -53,7 +53,6 @@ class Main{
 					for(int j = 0; j < space; j++){
 						hei[point + j] = id;
 					}
-					printArray(hei);
 					return;
 				}
 			}else{
@@ -75,13 +74,12 @@ class Main{
 			if(hei[i] != id) break;
 			hei[i] = -1;
 		}
-		printArray(hei);
 	}
 	
 	public static void printArray(int array[]){
 		for(int i = 0; i < array.length; i++){
 			System.out.print(array[i] + "\t");
 		}
-		//System.out.println();
+		System.out.println();
 	}
 }

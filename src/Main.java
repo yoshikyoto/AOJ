@@ -32,9 +32,10 @@ class Main{
 					}
 				}
 				//System.out.println(sy + " " + sx + " " + gy + " " + gx);
-				int ans = solve(tile, sx, sy, 0);
-				if(ans == 11) ans = -1;
-				System.out.println(ans);
+				answer = 11;
+				solve(tile, sx, sy, 0);
+				if(answer == 11) answer = -1;
+				System.out.println(answer);
 			}
 		} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -42,110 +43,113 @@ class Main{
 		}
 	}
 	
-	public static int solve(int tile[][], int x, int y, int count){
+	public static void solve(int tile[][], int x, int y, int count){
 		//tile[y][x] = 2;
 		// printMatrix(tile);
-		if(count >= 10) return 11;
-		int up = 11, right = 11, down = 11, left = 11;
+		if(count+1 >= answer) return;
 		// ã
 		if(y > 0 && tile[y-1][x] != 1){
 			// System.out.println("ã‚É“®‚©‚¹‚é");
-			up = goUp(tile, x, y, count);
+			goUp(tile, x, y, count);
 		}
 		
 		// ‰E
 		if(x < w-1 && tile[y][x+1] != 1){
 			// System.out.println("‰E‚É“®‚©‚¹‚é");
-			right = goRight(tile, x, y, count);
+			goRight(tile, x, y, count);
 		}
 		
 		// ‰º
 		if(y < h-1 && tile[y+1][x] != 1){
 			// System.out.println("‰º‚É“®‚©‚¹‚é");
-			down = goDown(tile, x, y, count);
+			goDown(tile, x, y, count);
 		}
 		
 		// ¶
 		if(x > 0 && tile[y][x-1] != 1){
 			// System.out.println("¶‚É“®‚©‚¹‚é");
-			left = goLeft(tile, x, y, count);
+			goLeft(tile, x, y, count);
 		}
-		return Math.min(Math.min(up, down), Math.min(right, left));
+		return;
 	}
 	
-	public static int goDown(int tile[][], int x, int y, int count){
+	public static void goDown(int tile[][], int x, int y, int count){
 		count++;
 		// System.out.println("‰º‚É“®‚©‚·" + count);
 		for(; y < h-1; y++){
 			if(tile[y+1][x] == 3){
 				// System.out.println("ƒS[ƒ‹‚Å‚·: " + count);
-				return count;
+				if(count < answer) answer = count;
+				return;
 			}
 			if(tile[y+1][x] == 1){
 				// System.out.println("•Ç‚É‚Ô‚Â‚©‚Á‚½");
 				tile[y+1][x] = 0;
-				int result = solve(tile, x, y, count);
+				solve(tile, x, y, count);
 				tile[y+1][x] = 1;
-				return result;
+				return;
 			}
 		}
-		return 11;
+		return;
 	}
 	
-	public static int goRight(int tile[][], int x, int y, int count){
+	public static void goRight(int tile[][], int x, int y, int count){
 		count++;
 		// System.out.println("‰E‚É“®‚©‚·" + count);
 		for(; x < w-1; x++){
 			if(tile[y][x+1] == 3){
 				// System.out.println("ƒS[ƒ‹‚Å‚·: " + count);
-				return count;
+				if(count < answer) answer = count;
+				return;
 			}
 			if(tile[y][x+1] == 1){
 				// System.out.println("•Ç‚É‚Ô‚Â‚©‚Á‚½");
 				tile[y][x+1] = 0;
-				int result = solve(tile, x, y, count);
+				solve(tile, x, y, count);
 				tile[y][x+1] = 1;
-				return result;
+				return;
 			}
 		}
-		return 11;
+		return;
 	}
 	
-	public static int goUp(int tile[][], int x, int y, int count){
+	public static void goUp(int tile[][], int x, int y, int count){
 		count++;
 		// System.out.println("ã‚É“®‚©‚·" + count);
 		for(; y > 0; y--){
 			if(tile[y-1][x] == 3){
 				// System.out.println("ƒS[ƒ‹‚Å‚·: " + count);
-				return count;
+				if(count < answer) answer = count;
+				return;
 			}
 			if(tile[y-1][x] == 1){
 				// System.out.println("•Ç‚É‚Ô‚Â‚©‚Á‚½");
 				tile[y-1][x] = 0;
-				int result = solve(tile, x, y, count);
+				solve(tile, x, y, count);
 				tile[y-1][x] = 1;
-				return result;
+				return;
 			}
 		}
-		return 11;
+		return;
 	}
 	
-	public static int goLeft(int tile[][], int x, int y, int count){
+	public static void goLeft(int tile[][], int x, int y, int count){
 		count++;
 		// System.out.println("¶‚É“®‚©‚·" + count);
 		for(; x > 0; x--){
 			if(tile[y][x-1] == 3){
 				// System.out.println("ƒS[ƒ‹‚Å‚·: " + count);
-				return count;
+				if(count < answer) answer = count;
+				return;
 			}
 			if(tile[y][x-1] == 1){
 				// System.out.println("•Ç‚É‚Ô‚Â‚©‚Á‚½");
 				tile[y][x-1] = 0;
-				int result = solve(tile, x, y, count);
+				solve(tile, x, y, count);
 				tile[y][x-1] = 1;
-				return result;
+				return;
 			}
 		}
-		return 11;
+		return;
 	}
 }

@@ -3,14 +3,16 @@ import java.io.InputStreamReader;
 
 class Main{
 	static int sx, sy, gx, gy;
+	static int answer;
+	static int w, h;
 	
 	public static void main(String args[]){
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			while(true){
 				String strs[] = br.readLine().split(" ");
-				int w = Integer.parseInt(strs[0]);
-				int h = Integer.parseInt(strs[1]);
+				w = Integer.parseInt(strs[0]);
+				h = Integer.parseInt(strs[1]);
 				if(w == 0) return;
 				
 				int tile[][] = new int[h][w];
@@ -52,13 +54,13 @@ class Main{
 		}
 		
 		// 右
-		if(x < tile[y].length-1 && tile[y][x+1] != 1){
+		if(x < w-1 && tile[y][x+1] != 1){
 			// System.out.println("右に動かせる");
 			right = goRight(tile, x, y, count);
 		}
 		
 		// 下
-		if(y < tile.length-1 && tile[y+1][x] != 1){
+		if(y < h-1 && tile[y+1][x] != 1){
 			// System.out.println("下に動かせる");
 			down = goDown(tile, x, y, count);
 		}
@@ -74,7 +76,7 @@ class Main{
 	public static int goDown(int tile[][], int x, int y, int count){
 		count++;
 		// System.out.println("下に動かす" + count);
-		for(; y < tile.length-1; y++){
+		for(; y < h-1; y++){
 			if(tile[y+1][x] == 3){
 				// System.out.println("ゴールです: " + count);
 				return count;
@@ -93,7 +95,7 @@ class Main{
 	public static int goRight(int tile[][], int x, int y, int count){
 		count++;
 		// System.out.println("右に動かす" + count);
-		for(; x < tile[y].length-1; x++){
+		for(; x < w-1; x++){
 			if(tile[y][x+1] == 3){
 				// System.out.println("ゴールです: " + count);
 				return count;
@@ -145,30 +147,5 @@ class Main{
 			}
 		}
 		return 11;
-	}
-	
-	
-	public static void printArray(int array[]){
-		for(int i = 0; i < array.length; i++)
-			System.out.print(array[i] + "\t");
-		System.out.println();
-	}
-
-	public static void printArray(boolean array[]){
-		for(int i = 0; i < array.length; i++)
-			System.out.print(array[i] + "\t");
-		System.out.println();
-	}
-	
-	public static void printMatrix(int matrix[][]){
-		for(int i = 0; i < matrix.length; i++){
-			printArray(matrix[i]);
-		}
-	}
-	
-	public static void printMatrix(boolean matrix[][]){
-		for(int i = 0; i < matrix.length; i++){
-			printArray(matrix[i]);
-		}
 	}
 }

@@ -2,154 +2,106 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 class Main{
-	static int sx, sy, gx, gy;
-	static int answer;
-	static int w, h;
+	static int[][] tile;
+	static String[] tagnames;
+	static int[] tagcontents;
+	static int index;
 	
 	public static void main(String args[]){
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			while(true){
-				String strs[] = br.readLine().split(" ");
-				w = Integer.parseInt(strs[0]);
-				h = Integer.parseInt(strs[1]);
-				if(w == 0) return;
-				
-				int tile[][] = new int[h][w];
-				
-				for(int i = 0; i < h; i++){
-					strs = br.readLine().split(" ");
-					for(int j = 0; j < w; j++){
-						tile[i][j] = Integer.parseInt(strs[j]);
-						if(tile[i][j] == 2){
-							sy = i;
-							sx = j;
-						}
-						if(tile[i][j] == 3){
-							gy = i;
-							gx = j;
-						}
-					}
-				}
-				//System.out.println(sy + " " + sx + " " + gy + " " + gx);
-				answer = 11;
-				solve(tile, sx, sy, 0);
-				if(answer == 11) answer = -1;
-				System.out.println(answer);
-			}
+			int n = Integer.parseInt(br.readLine());
+			if(n == 0) return;
+			
+			tile = new int[10001][10001];
+			tagnames = new String[100];
+			tagcontents = new int[100];
+			index = 1;
+			
+			String xml = br.readLine();
+			parse(xml);
+			
+			print();
+			
 		} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 		}
 	}
 	
-	public static void solve(int tile[][], int x, int y, int count){
-		//tile[y][x] = 2;
-		// printMatrix(tile);
-		if(count+1 >= answer) return;
-		// 上
-		if(y > 0 && tile[y-1][x] != 1){
-			// System.out.println("上に動かせる");
-			goUp(tile, x, y, count);
+	public static int parse(String xml){
+		int num_of_contents = 0;
+		while(true){
+			// タグを抽出
+			int left = xml.indexOf("<");
+			int right = xml.indexOf(">");
+			if(left == -1) break;
+			num_of_contents++;
+			int this_tag_index = index;
+			index++;
+			String tagname = xml.substring(left + 1, right);
+			tagnames[this_tag_index] = tagname;
+			int tagname_length = right - left - 1;
+			System.out.println("tagname: " + tagname + "\tlength " + tagname_length);
+			
+			// タグの中身を抽出
+			int begin = xml.indexOf("<" + tagname + ">");
+			int end = xml.indexOf("</" + tagname + ">");
+			String contents = xml.substring(begin + tagname_length + 2, end);
+			System.out.println("contents: " + contents);
+			
+			// 座標と中身を分割, 中身をパース
+			int contents_index = contents.indexOf("<");
+			String coordinate = new String();
+			if(contents_index == -1){
+				coordinate = contents;
+				contents = "";
+			}else{
+				coordinate = contents.substring(0, contents_index);
+				contents = contents.substring(contents_index);
+				tagcontents[this_tag_index] = parse(contents);
+			}
+			
+			// 座標のsplit
+			String coordinateArr[] = coordinate.split(",");
+			int sx = Integer.parseInt(coordinateArr[0]);
+			int sy = Integer.parseInt(coordinateArr[1]);
+			int ex = Integer.parseInt(coordinateArr[2]);
+			int ey = Integer.parseInt(coordinateArr[3]);
+			System.out.println(sx + "\t" + sy + "\t" + ex + "\t" + ey);
+			// sx = sx / 10;
+			// sy = sy / 10;
+			// ex = ex / 10;
+			// ey = ey / 10;
+			
+			for(int x = sx; x <= ex; x++){
+				for(int y = sy; y <= ey; y++){
+					tile[y][x] = this_tag_index;
+				}
+			}
+			
+			xml = xml.substring(end + tagname_length + 3);
+			System.out.println(xml);
 		}
+		return num_of_contents;
+	}
+	
+	static void print(){
+		for(int i = 1; i < index; i++){
+			System.out.print(tagnames[i] + "\t");
+		}
+		System.out.println();
+
+		for(int i = 1; i < index; i++){
+			System.out.print(tagcontents[i] + "\t");
+		}
+		System.out.println();
 		
-		// 右
-		if(x < w-1 && tile[y][x+1] != 1){
-			// System.out.println("右に動かせる");
-			goRight(tile, x, y, count);
+		for(int i = 0; i < 1000; i++){
+			for(int j = 0; j < 1000; j++){
+				System.out.print(tile[i*10][j*10]);
+			}
+			System.out.println();
 		}
-		
-		// 下
-		if(y < h-1 && tile[y+1][x] != 1){
-			// System.out.println("下に動かせる");
-			goDown(tile, x, y, count);
-		}
-		
-		// 左
-		if(x > 0 && tile[y][x-1] != 1){
-			// System.out.println("左に動かせる");
-			goLeft(tile, x, y, count);
-		}
-		return;
-	}
-	
-	public static void goDown(int tile[][], int x, int y, int count){
-		count++;
-		// System.out.println("下に動かす" + count);
-		for(; y < h-1; y++){
-			if(tile[y+1][x] == 3){
-				// System.out.println("ゴールです: " + count);
-				if(count < answer) answer = count;
-				return;
-			}
-			if(tile[y+1][x] == 1){
-				// System.out.println("壁にぶつかった");
-				tile[y+1][x] = 0;
-				solve(tile, x, y, count);
-				tile[y+1][x] = 1;
-				return;
-			}
-		}
-		return;
-	}
-	
-	public static void goRight(int tile[][], int x, int y, int count){
-		count++;
-		// System.out.println("右に動かす" + count);
-		for(; x < w-1; x++){
-			if(tile[y][x+1] == 3){
-				// System.out.println("ゴールです: " + count);
-				if(count < answer) answer = count;
-				return;
-			}
-			if(tile[y][x+1] == 1){
-				// System.out.println("壁にぶつかった");
-				tile[y][x+1] = 0;
-				solve(tile, x, y, count);
-				tile[y][x+1] = 1;
-				return;
-			}
-		}
-		return;
-	}
-	
-	public static void goUp(int tile[][], int x, int y, int count){
-		count++;
-		// System.out.println("上に動かす" + count);
-		for(; y > 0; y--){
-			if(tile[y-1][x] == 3){
-				// System.out.println("ゴールです: " + count);
-				if(count < answer) answer = count;
-				return;
-			}
-			if(tile[y-1][x] == 1){
-				// System.out.println("壁にぶつかった");
-				tile[y-1][x] = 0;
-				solve(tile, x, y, count);
-				tile[y-1][x] = 1;
-				return;
-			}
-		}
-		return;
-	}
-	
-	public static void goLeft(int tile[][], int x, int y, int count){
-		count++;
-		// System.out.println("左に動かす" + count);
-		for(; x > 0; x--){
-			if(tile[y][x-1] == 3){
-				// System.out.println("ゴールです: " + count);
-				if(count < answer) answer = count;
-				return;
-			}
-			if(tile[y][x-1] == 1){
-				// System.out.println("壁にぶつかった");
-				tile[y][x-1] = 0;
-				solve(tile, x, y, count);
-				tile[y][x-1] = 1;
-				return;
-			}
-		}
-		return;
 	}
 }

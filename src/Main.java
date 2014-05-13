@@ -15,6 +15,7 @@ class Main{
 				
 				tile = new int[h][w];
 				int ax, ay, bx, by;
+				//test for commit
 				
 				// フィールド読み取り
 				for(int y = 0; y < h; y++){
